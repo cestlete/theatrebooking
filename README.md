@@ -16,7 +16,7 @@ Start like this, but can help each other:
 
 2.Karl+Mengqi,back-end
 
-3.Joyti+Jasmine,front-end
+3.Jyoti+Jasmine,front-end
 
 4.David,Architecture
 
