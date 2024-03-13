@@ -10,6 +10,17 @@ https://swagger.io/
 
 
 
+Start like this, but can help each other:
+
+1.UX Design-All of us
+
+2.Karl+Mengqi,back-end
+
+3.Joyti+Jasmine,front-end
+
+4.David,Architecture
+
+5.Group 6, communicate with them, about the database.
 
 
 
@@ -18,10 +29,11 @@ https://swagger.io/
 
 
 
-# Code & Report-Due: Wednesday, 17 April 2024, 12:00 AM
+
+# Code & Report-Due: Wednesday, 17/4/2024, 12:00 AM
 
 
 
 
 
-# Submission: Presentation-Due: Friday, 19 April 2024, 12:00 AM
+# Presentation-Due: Friday, 19/4/2024, 12:00 AM
