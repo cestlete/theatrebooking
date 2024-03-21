@@ -53,16 +53,17 @@ Start like this, but can help each other:
 
 1.UX Design-All of us
 
-2.Karl+Mengqi,Back-end
+2.Karl+Mengqi, Back-end
 
-3.Jyoti+Jasmine,Front-end
+3.Jyoti+Jasmine, Front-end
 
-4.David,Architecture
+4.David, Architecture
 
 5.Group 6, communicate with them, about the database.
 
+# 14/3/2024 - 21/3/2024
 
-
+UX Design
 
 
 
