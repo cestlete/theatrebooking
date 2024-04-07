@@ -2,6 +2,8 @@
 
 To setup the project locally, you can run:
 
+### `cd theatrebooking/frontend-app` 
+
 ### `npm install`
 
 Installs the dependencies
