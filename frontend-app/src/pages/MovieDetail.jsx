@@ -1,5 +1,5 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import './MovieDetail.css';
 
 const MovieDetail = () => {
@@ -7,6 +7,7 @@ const MovieDetail = () => {
   // Fetch movie details based on the `id`
 
   const movie = {
+    id: 1,
     title: "The God Father",
     languages: ["English", "Hindi"],
     duration: "2h 13m",
@@ -29,7 +30,7 @@ const MovieDetail = () => {
         </div>
         <h2>About the movie</h2>
         <p>{movie.description}</p>
-        <button className="btn">Book Tickets</button>
+        <Link to={`/booking/${movie.id}`} className="btn">Book Tickets</Link>
       </div>
     </div>
   );
