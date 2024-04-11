@@ -18,9 +18,11 @@ and run the following commands:
 
 `docker-compose up` (or `docker-compose up -d` to run in detached mode) 
 
-`docker-compose down` to stop the containers
+
 
 Now, you can access the frontend at `http://localhost:3000` and the backend at `http://localhost:8000`
+
+`docker-compose down` to stop the containers
 
 
 # Projects #8 & 9: Theatre Booking System  
