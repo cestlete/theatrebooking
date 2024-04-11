@@ -1,6 +1,6 @@
 .filter-bar {
   text-align: center;
-  margin-bottom: 30px;
+  margin: 30px;
 }
 
 .filter-bar h1 {
@@ -11,7 +11,6 @@
   display: flex;
   justify-content: center;
   gap: 15px;
-  flex-wrap: wrap;
 }
 
 .filters select {
