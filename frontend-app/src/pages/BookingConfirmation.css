@@ -1,0 +1,85 @@
+/* .booking-success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.booking-success h1 {
+  font-size: 2rem;
+  color: #4BB543;
+  margin-bottom: 0.5em;
+}
+
+.booking-success p {
+  font-size: 1.2rem;
+  margin-bottom: 1em;
+}
+
+.booking-failure {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.booking-failure h1 {
+  font-size: 2rem;
+  color: #f80f0f;
+  margin-bottom: 0.5em;
+}
+
+.home-link {
+  padding: 10px 20px;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.home-link:hover {
+  background-color: #0056b3;
+} */
+
+
+.booking-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.booking-message h1 {
+  font-size: 2rem;
+  margin-bottom: 0.5em;
+}
+
+.booking-message p {
+  font-size: 1.2rem;
+  margin-bottom: 1em;
+}
+
+.booking-success h1 {
+  color: #4BB543;
+}
+
+.booking-failure h1 {
+  color: #f80f0f;
+}
+
+.home-link {
+  padding: 10px 20px;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.home-link:hover {
+  background-color: #0056b3;
+}
