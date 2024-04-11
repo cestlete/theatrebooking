@@ -66,6 +66,7 @@ Start like this, but can help each other:
 UX Design
 # 11/4/2024
 API:
+
 Allshows-(check the number of the tickets,0[soldout] or more than 0[available]),Boolean.
 
 AllGenres-( all genres for the show in the database)
