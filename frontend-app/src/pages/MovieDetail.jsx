@@ -18,26 +18,23 @@ const MovieDetail = () => {
 	};
 
 	return (
-		<>
-			<div className='movie-detail'>
-				<img className='movie-image' src='https://www.themoviedb.org/t/p/w600_and_h900_bestv2/wKiOkZTN9lUUUNZLmtnwubZYONg.jpg' alt={movie.title} />
-				<div className='movie-content'>
-					<h1 className='movie-title'>{movie.title}</h1>
-					<div className='movie-info'>
-						<div className='language'>{movie.languages.join(', ')}</div>
-						<div className='duration'>{movie.duration}</div>
-						<div className='genre'>{movie.genre}</div>
-						<div className='rating'>{movie.rating}</div>
-					</div>
-					<h2>About the movie</h2>
-					<p className='description'>{movie.description}</p>
-					<div className='btn-container'>
-						<Link to={`/booking/${movie.id}`} className='btn'>Book Tickets</Link>
-					</div>
+		<div className='movie-detail'>
+			<img className='movie-image' src='https://www.themoviedb.org/t/p/w600_and_h900_bestv2/wKiOkZTN9lUUUNZLmtnwubZYONg.jpg' alt={movie.title} />
+			<div className='movie-content'>
+				<h1 className='movie-title'>{movie.title}</h1>
+				<div className='movie-info'>
+					<div className='language'>{movie.languages.join(', ')}</div>
+					<div className='duration'>{movie.duration}</div>
+					<div className='genre'>{movie.genre}</div>
+					<div className='rating'>{movie.rating}</div>
+				</div>
+				<h2>About the movie</h2>
+				<p className='description'>{movie.description}</p>
+				<div className='btn-container'>
+					<Link to={`/booking/${movie.id}`} className='btn'>Book Tickets</Link>
 				</div>
 			</div>
-
-		</>
+		</div>
 	);
 };
 
