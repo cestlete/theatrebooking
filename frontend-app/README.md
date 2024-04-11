@@ -1,4 +1,5 @@
 # Frontend App for movie ticket booking app
+Node Version: 8.1.2
 
 To setup the project locally, you can run:
 
