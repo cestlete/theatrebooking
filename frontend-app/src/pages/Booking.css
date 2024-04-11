@@ -1,8 +1,8 @@
 .booking-page {
   display: flex;
   background-color: #f2f2f2;
-  padding: 30px;
-  margin-top: -25px; 
+  padding: 10px 30px;
+  margin-top: -25px;
 }
 
 .booking-container {
@@ -14,9 +14,20 @@
   margin: 1em;
   padding: 1em;
   box-sizing: border-box;
+
+  .booking-details {
+    .booking-info {
+      color: #555;
+      text-align: center;
+      border-bottom: 1px solid #eaeaea;
+      padding-bottom: 10px;
+    }
+  }
 }
 
-.booking-title, .show-info, .show-description {
+.booking-title,
+.show-info,
+.show-description {
   text-align: center;
 }
 
@@ -28,7 +39,8 @@
   width: 30%;
 }
 
-.ticket-price, .ticket-quantity {
+.ticket-price,
+.ticket-quantity {
   margin-bottom: 0.5em;
 }
 
@@ -37,7 +49,8 @@ label {
   margin-bottom: 0.25em;
 }
 
-select, input[type="number"] {
+select,
+input[type="number"] {
   width: 100%;
   padding: 0.5em;
   margin-bottom: 0.5em;
@@ -50,7 +63,7 @@ select, input[type="number"] {
   padding: 0.75em;
   font-size: 1em;
   color: white;
-  background-color: #5cb85c;
+  background-color: #37bae5;
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -58,10 +71,18 @@ select, input[type="number"] {
 }
 
 .book-btn:hover {
-  background-color: #4cae4c;
+  background-color: #37bae5;
 }
 
-/* Smaller devices (phones, less than 768px) */
+.date-selection,
+.price-selection,
+.quantity-selection {
+  margin: 1rem 0;
+  label {
+    font-weight: 600;
+  }
+}
+
 @media (max-width: 767px) {
   .booking-container {
     margin: 0;
@@ -69,7 +90,6 @@ select, input[type="number"] {
   }
 }
 
-/* Medium devices (tablets, 768px and up) */
 @media (min-width: 768px) {
   .booking-page {
     justify-content: center;
