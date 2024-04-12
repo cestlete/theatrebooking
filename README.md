@@ -1,3 +1,30 @@
+# Setting up docker compose:
+Install Docker Desktop: Docker Desktop is available for both Windows and macOS. You can download the installer from the official Docker website:
+
+Docker Desktop for Windows [here](https://docs.docker.com/desktop/install/windows-install/)
+
+Docker Desktop for Mac [here](https://docs.docker.com/desktop/install/mac-install/)
+
+Docker compose should now be installed. You can check with the following:
+
+`docker-compose --version`
+
+Now, navigate to the teathrebooking directory
+`cd /path/to/theatrebooking`
+
+and run the following commands:
+
+`docker-compose build`
+
+`docker-compose up` (or `docker-compose up -d` to run in detached mode) 
+
+
+
+Now, you can access the frontend at `http://localhost:3000` and the backend at `http://localhost:8000`
+
+`docker-compose down` to stop the containers
+
+
 # Projects #8 & 9: Theatre Booking System  
 
 These projects create a website for a theatre’s online booking system.  

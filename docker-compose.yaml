@@ -1,0 +1,12 @@
+services:
+  frontend:
+    build: ./frontend-app
+    ports:
+      - "3000:3000"
+    # configurations for frontend can go here
+
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    # configurations for backend can go here
