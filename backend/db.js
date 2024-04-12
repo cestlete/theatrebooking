@@ -21,4 +21,17 @@ const getGenres = async () => {
     throw error;
   }
 };
-module.exports = {connectToDB, getGenres}; 
+
+const getDates = async () => {
+    try {
+        // Get distinct dates from the 'nowShowing' collection
+        const dates = await mongoose.connection.db.collection('nowShowing').distinct(
+            'session.date');
+        return dates;
+    } catch (error) {
+        console.error('Error fetching dates:', error);
+        throw error;
+    }
+};
+
+module.exports = {connectToDB, getGenres, getDates}; 
