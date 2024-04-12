@@ -94,15 +94,19 @@ UX Design
 # 11/4/2024
 API:
 
-Allshows-(check the number of the tickets,0[soldout] or more than 0[available]),Boolean.
+Allshows-(check the number of the tickets,0[soldout, false] or more than 0[available, true]),Boolean.
 
-AllGenres-( all genres for the show in the database)
+AllGenres-(all genres for the show in the database)
 
-AllDatesAvailable-(all dates for the show in the database)
+AllDates-(all dates for the show in the database)
 
 SaveBookingInfo
 
 BookingDetalis
+
+CheckRemain
+
+UpdateShowInfo
 
 
 # Code & Report-Due: Wednesday, 17/4/2024, 12:00 AM
