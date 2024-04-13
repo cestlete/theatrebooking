@@ -4,6 +4,7 @@ import axios from "axios";
 import FilterBar from './FilterBar';
 import './HomePage.css';
 import loading from '../assets/images/loading.gif';
+import API_URLS from '../config';
 
 export default function HomePage() {
   const [shows, setShows] = useState([]);
@@ -14,10 +15,8 @@ export default function HomePage() {
     sort: '',
   });
 
-  const URL = 'https://mock-api.driven.com.br/api/v2/cineflex/movies';
-
   useEffect(() => {
-    axios.get(URL)
+    axios.get(API_URLS.getAllShows)
       // .then((response) => response.json()) // Original API response could be different commenting it for later
       .then((response) => {
         setShows(response.data);
