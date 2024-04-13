@@ -132,17 +132,6 @@ app.get('/dates', async (req, res) => {
   }
 });
 
-// Create a booking
-app.post('/makebooking', async (req, res) => {
-  try {
-    const booking = await bookingInfo.create(req.body);
-    res.status(201).json(booking);
-  } catch (error) {
-    console.error('Error creating booking:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
-
 // Get the details of a specific booking
 app.get('/booking/:id', async (req, res) => {
   const bookingId = req.params.id;
@@ -190,31 +179,26 @@ app.get('/availability', async (req, res) => {
 });
 
 // Update the remaining tickets for a specific show on a specific date and price
-app.post('/updateremain', async (req, res) => {
-  const { showId, date, price, ticketsBooked } = req.body;
+// If the remaining tickets are updated successfully, create a booking
+app.post('/bookshow', async (req, res) => {
+  const { showId, date, price, ticketsBooked, bookingDetails } = req.body;
 
   try {
+    let remainUpdated = false;
+
+    // Update remaining tickets
     const show = await nowShowing.findById(showId);
     if (!show) {
       return res.status(404).json({ error: 'Show not found' });
     }
 
-    // Find the session matching the provided date
-    const session = show.session.find(s => s.date === date);
-    if (!session) {
-      return res.status(404).json({ error: 'Session not found for the provided date' });
-    }
-
-    // Find the ticket availability matching the provided price
     show.session.forEach(session => {
       if (session.date === date) {
         session.ticketsAvailability.forEach(ticket => {
-          // convert the price to a float and compare it with the provided price
-          if (ticket.price === parseFloat(price)) { 
-            // Check if the remaining tickets after booking won't be negative
+          if (ticket.price === parseFloat(price)) {
             if (ticket.remain - ticketsBooked >= 0) {
-              // update the remaining tickets
               ticket.remain -= ticketsBooked;
+              remainUpdated = true;
             } else {
               return res.status(400).json({ error: 'Not enough tickets available' });
             }
@@ -223,13 +207,22 @@ app.post('/updateremain', async (req, res) => {
       }
     });
 
-    // Save the updated show data
-    await show.save();
+    console.log('remainUpdated:', remainUpdated);
+    if (remainUpdated) {
+      // Save updated show data
+      await show.save();
 
-    res.status(200).json({ message: 'Remain updated successfully' });
+      // Save booking information
+      const booking = await bookingInfo.create(bookingDetails);
+
+      //const booking = await bookingInfo.create(req.body.bookingInfo);
+      res.status(201).json({ message: 'Booking created successfully', booking });
+    } else {
+      res.status(400).json({ error: 'Failed to update remaining tickets' });
+    }
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Internal Server Error' });
+    console.error('Error making booking and updating remain:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 
