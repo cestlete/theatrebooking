@@ -74,7 +74,7 @@ app.get('/home', async (req, res) => {
 
       // create a new field in the show object to indicate whether there are tickets available
       return {
-        ...show,
+        ...show._doc,
         hasAvailability
       };
     });
