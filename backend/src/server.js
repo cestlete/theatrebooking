@@ -45,16 +45,6 @@ const nowShowing = mongoose.model('NowShowing', showSchema, 'nowShowing');
 const bookingInfo = mongoose.model('BookingInfo', bookingInfoSchema, 'bookingInfo');
 
 
-// app.get('/home', async (req, res) => {
-//   try {
-//     const shows = await nowShowing.find();
-//     res.json(shows);
-//   } catch (error) {
-//     console.error('Error fetching shows:', error);
-//     res.status(500).json({ error: 'Internal Server Error' });
-//   }
-// });
-
 app.get('/home', async (req, res) => {
   try {
     // get all show data
@@ -70,7 +60,6 @@ app.get('/home', async (req, res) => {
       let totalRemain = 0;
       const session = show.session.map(session => {
         // check if there are tickets available
-        console.log('session.ticketsAvailability:', session.ticketsAvailability);
         if (!session.ticketsAvailability) {
           return session;
         }
