@@ -338,4 +338,11 @@ http://localhost:8000/booking/661a73baae73695ef285395f
   "__v": 0
 }
 -------------------------------
+Check the remaining tickets for a specific show on a specific date and price
+Used to check if there are enough tickets left before saving the booking information.
 
+http://localhost:8000/availability?showId=661a8a2a2ab6bbd41e7245d7&date=2024-06-01&price=65
+{
+    "remain": 50
+}
+-------------------------------
