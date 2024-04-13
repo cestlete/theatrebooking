@@ -60,13 +60,13 @@ export default function HomePage() {
       <FilterBar genres={genres} showDates={showDates} onFilterChange={handleFilterChange} />
       <div className="movies-container">
         {shows.map(show => (
-          <Link key={show._id} to={`/movie/${show._id}`} className="movie-card-link" state={
+          <Link key={show.showId} to={`/movie/${show.showId}`} className="movie-card-link" state={
             {
               data: show
             }
 
           }>
-            <div key={show._id} className="movie-card">
+            <div key={show.showId} className="movie-card">
               <img src={show?.posterURL || 'https://image.tmdb.org/t/p/w500/riYInlsq2kf1AWoGm80JQW5dLKp.jpg'} alt={show.showName} />
               <h3>{show.showName}</h3>
             </div>
