@@ -1,50 +1,3 @@
-/* .booking-success {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-
-.booking-success h1 {
-  font-size: 2rem;
-  color: #4BB543;
-  margin-bottom: 0.5em;
-}
-
-.booking-success p {
-  font-size: 1.2rem;
-  margin-bottom: 1em;
-}
-
-.booking-failure {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-
-.booking-failure h1 {
-  font-size: 2rem;
-  color: #f80f0f;
-  margin-bottom: 0.5em;
-}
-
-.home-link {
-  padding: 10px 20px;
-  border-radius: 4px;
-  background-color: #007bff;
-  color: white;
-  text-decoration: none;
-  transition: background-color 0.2s ease-in-out;
-}
-
-.home-link:hover {
-  background-color: #0056b3;
-} */
-
-
 .booking-message {
   display: flex;
   flex-direction: column;
@@ -54,17 +7,17 @@
 }
 
 .booking-message h1 {
-  font-size: 2rem;
-  margin-bottom: 0.5em;
+  font-size: 32px;
+  margin-bottom: 8px;
 }
 
 .booking-message p {
-  font-size: 1.2rem;
-  margin-bottom: 1em;
+  font-size: 19.2px;
+  margin-bottom: 16px;
 }
 
 .booking-success h1 {
-  color: #4BB543;
+  color: #4bb543;
 }
 
 .booking-failure h1 {
