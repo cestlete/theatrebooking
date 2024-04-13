@@ -8,6 +8,7 @@ import API_URLS from '../config';
 
 export default function HomePage() {
   const [shows, setShows] = useState([]);
+  const [originalShows, setOriginalShows] = useState([]);
   const [genres, setGenres] = useState([]);
   const [showDates, setShowDates] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -31,6 +32,7 @@ export default function HomePage() {
           axios.get(API_URLS.getShowDates),
         ]);
         setShows(shows.data);
+        setOriginalShows(shows.data); // save the original list of shows for filtering purposes
         setGenres(genres.data);
         setShowDates(showDates.data);
       } catch (error) {
@@ -42,6 +44,39 @@ export default function HomePage() {
     fetchData();
   }, []);
 
+  const handleFilterChange = (newFilters) => {
+    setFilters(prevFilters => ({ ...prevFilters, ...newFilters }));
+  };
+
+  // apply filters whenever they change
+  useEffect(() => {
+    if (filters.genre || filters.date || filters.availability) {
+      setLoading(true);
+      try {
+        const filteredShows = originalShows
+          .filter(show => {
+            return filters.genre ? show.genre.includes(filters.genre) : true;
+          })
+          .filter(show => {
+            return filters.date ? show.session.some(session => session.date === filters.date) : true;
+          })
+          .filter(show => {
+            if (filters.availability === 'available') {
+              return show.session.some(session => session.ticketsAvailability.some(ticket => ticket.remain > 0));
+            } else if (filters.availability === 'sold-out') {
+              return show.session.every(session => session.ticketsAvailability.every(ticket => ticket.remain === 0));
+            }
+            return true;
+          });
+        setShows(filteredShows);
+      } catch (error) {
+        setError(error);
+      } finally {
+        setLoading(false);
+      }
+    }
+  }, [filters]);
+
   if (loading) {
     return (
       <div className="loader">
@@ -49,11 +84,6 @@ export default function HomePage() {
       </div>
     )
   }
-
-  const handleFilterChange = (newFilters) => {
-    setFilters(newFilters);
-    // TODO: make API calls to update the shows list based on the filters selected
-  };
 
   return (
     <>

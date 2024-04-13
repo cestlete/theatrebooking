@@ -34,7 +34,7 @@ const FilterBar = ({ onFilterChange, genres, showDates }) => {
         <select onChange={(e) => handleFilterChange('genre', e.target.value)}>
           <option value="">Select Genre</option>
           {genres.map(genre => (
-            <option key={genre} value={genre.toLowerCase()}>{genre}</option>
+            <option key={genre} value={genre}>{genre}</option>
           ))}
         </select>
         <select onChange={(e) => handleFilterChange('date', e.target.value)}>
