@@ -193,6 +193,50 @@ app.get('/availability', async (req, res) => {
   }
 });
 
+// Update the remaining tickets for a specific show on a specific date and price
+app.post('/updateremain', async (req, res) => {
+  const { showId, date, price, ticketsBooked } = req.body;
+
+  try {
+    const show = await nowShowing.findById(showId);
+    if (!show) {
+      return res.status(404).json({ error: 'Show not found' });
+    }
+
+    // Find the session matching the provided date
+    const session = show.session.find(s => s.date === date);
+    if (!session) {
+      return res.status(404).json({ error: 'Session not found for the provided date' });
+    }
+
+    // Find the ticket availability matching the provided price
+    show.session.forEach(session => {
+      if (session.date === date) {
+        session.ticketsAvailability.forEach(ticket => {
+          // convert the price to a float and compare it with the provided price
+          if (ticket.price === parseFloat(price)) { 
+            // Check if the remaining tickets after booking won't be negative
+            if (ticket.remain - ticketsBooked >= 0) {
+              // update the remaining tickets
+              ticket.remain -= ticketsBooked;
+            } else {
+              return res.status(400).json({ error: 'Not enough tickets available' });
+            }
+          }
+        });
+      }
+    });
+
+    // Save the updated show data
+    await show.save();
+
+    res.status(200).json({ message: 'Remain updated successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Server is running on ${PORT}`);
 });
