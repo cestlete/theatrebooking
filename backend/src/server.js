@@ -1,4 +1,4 @@
-// Import the express library
+const cors = require('cors');
 const express = require('express');
 // Import the body-parser library, parese the request body
 const bodyParser = require('body-parser');
@@ -8,6 +8,12 @@ const { connectToDB, getGenres, getDates } = require('./db');
 const mongoose = require('mongoose');
 // Create an express application
 const app = express();
+/*
+Access to XMLHttpRequest at 'http://localhost:8000/genres' from origin 'http://localhost:3000' 
+has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+so enable all CORS requests 
+*/
+app.use(cors());
 // Parse JSON request body
 app.use(bodyParser.json());
 // Set the port number
@@ -158,18 +164,18 @@ app.get('/availability', async (req, res) => {
       return res.status(404).json({ error: 'Show not found' });
     }
 
-   // Find the session matching the provided date
+    // Find the session matching the provided date
     const session = show.session.find(s => s.date === date);
     if (!session) {
       return res.status(404).json({ error: 'Session not found for the provided date' });
     }
-    
+
     // Find the ticket availability matching the provided price
     const ticketAvailability = session.ticketsAvailability.find(t => parseFloat(t.price) === parseFloat(price));
     if (!ticketAvailability) {
       return res.status(404).json({ error: 'Ticket availability not found for the provided price' });
     }
-    
+
     // Return the remaining tickets
     res.json({ remain: ticketAvailability.remain });
   } catch (error) {
@@ -195,7 +201,9 @@ app.post('/bookshow', async (req, res) => {
     show.session.forEach(session => {
       if (session.date === date) {
         session.ticketsAvailability.forEach(ticket => {
+          // convert the price to a float and compare it with the provided price
           if (ticket.price === parseFloat(price)) {
+            // Check if the remaining tickets after booking won't be negative
             if (ticket.remain - ticketsBooked >= 0) {
               ticket.remain -= ticketsBooked;
               remainUpdated = true;
