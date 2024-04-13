@@ -13,24 +13,21 @@ const PORT = process.env.PORT || 8000;
 connectToDB();
 
 
-// schema for subdocument ticket
-const ticketSchema = new mongoose.Schema({
+const ticketsAvailabilitySchema = new mongoose.Schema({
   price: Number,
   remain: Number
 });
 
-// schema for show
+const sessionSchema = new mongoose.Schema({
+  date: String,
+  ticketsAvailability: [ticketsAvailabilitySchema]
+});
+
 const showSchema = new mongoose.Schema({
   showName: String,
   genre: [String],
   briefDescription: String,
-  session: [{
-    date: String,
-    ticketsAvailability: [{
-      price: String,
-      remain: String
-    }]
-  }]
+  session: [sessionSchema]
 });
 
 
@@ -63,13 +60,9 @@ app.get('/home', async (req, res) => {
     // get all show data
     const shows = await nowShowing.find();
 
-    console.log('shows:', shows);
-
-
     // manipulate the show data to include availability information for each show
     const showsWithSession = shows.map(show => {
       // check if there are sessions available
-      console.log('show.session:', show.session);
       if (!show.session) {
         return show;
       }
@@ -83,15 +76,11 @@ app.get('/home', async (req, res) => {
         }
 
         const ticketsAvailability = session.ticketsAvailability.map(ticketsAvailability => {
-          console.log('ticketsAvailability.remain:', ticketsAvailability.remain);
           // calculate the total number of tickets available
           totalRemain = Number(totalRemain) + Number(ticketsAvailability.remain)
         });
 
       });
-
-      console.log('totalRemain:', totalRemain);
-
       const hasAvailability = totalRemain > 0;
 
       // create a new field in the show object to indicate whether there are tickets available
@@ -161,6 +150,7 @@ app.post('/makebooking', async (req, res) => {
 // Get the details of a specific booking
 app.get('/booking/:id', async (req, res) => {
   const bookingId = req.params.id;
+  console.log('bookingId:', bookingId);
   try {
     const booking = await bookingInfo.findById(bookingId);
     if (!booking) {
@@ -169,6 +159,36 @@ app.get('/booking/:id', async (req, res) => {
     res.json(booking);
   } catch (error) {
     console.error('Error fetching booking:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+// Check the remaining tickets for a specific show on a specific date and price
+app.get('/availability', async (req, res) => {
+  const { showId, date, price } = req.query;
+
+  try {
+    const show = await nowShowing.findById(showId);
+    if (!show) {
+      return res.status(404).json({ error: 'Show not found' });
+    }
+
+   // Find the session matching the provided date
+    const session = show.session.find(s => s.date === date);
+    if (!session) {
+      return res.status(404).json({ error: 'Session not found for the provided date' });
+    }
+    
+    // Find the ticket availability matching the provided price
+    const ticketAvailability = session.ticketsAvailability.find(t => parseFloat(t.price) === parseFloat(price));
+    if (!ticketAvailability) {
+      return res.status(404).json({ error: 'Ticket availability not found for the provided price' });
+    }
+    
+    // Return the remaining tickets
+    res.json({ remain: ticketAvailability.remain });
+  } catch (error) {
+    console.error('Error fetching availability:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
