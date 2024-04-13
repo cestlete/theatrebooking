@@ -1,6 +1,9 @@
+// Description: MongoDB connection and data fetching functions.
+
 const mongoose = require('mongoose');
 const uri = 'mongodb+srv://cs615project:CShPO9Zy8Xrpwv29@cluster0.yhuwpgo.mongodb.net/cs615';
 
+// Connect to MongoDB
 const connectToDB = async () => {
   try {
     await mongoose.connect(uri);
@@ -11,6 +14,7 @@ const connectToDB = async () => {
   }
 };
 
+// Fetch genres from MongoDB
 const getGenres = async () => {
   try {
     // Get distinct genres from the 'nowShowing' collection
@@ -22,6 +26,7 @@ const getGenres = async () => {
   }
 };
 
+// Fetch dates from MongoDB
 const getDates = async () => {
     try {
         // Get distinct dates from the 'nowShowing' collection
@@ -34,4 +39,5 @@ const getDates = async () => {
     }
 };
 
+// Export the functions
 module.exports = {connectToDB, getGenres, getDates}; 

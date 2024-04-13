@@ -1,18 +1,22 @@
+// Import the express library
 const express = require('express');
 // Import the body-parser library, parese the request body
 const bodyParser = require('body-parser');
+// Import the functions from the db.js file
 const { connectToDB, getGenres, getDates } = require('./db');
-
+// Import the mongoose library
 const mongoose = require('mongoose');
-
+// Create an express application
 const app = express();
 // Parse JSON request body
 app.use(bodyParser.json());
+// Set the port number
 const PORT = process.env.PORT || 8000;
 
+// Connect to MongoDB
 connectToDB();
 
-
+// Define the schema for the show data
 const ticketsAvailabilitySchema = new mongoose.Schema({
   price: Number,
   remain: Number
@@ -30,7 +34,7 @@ const showSchema = new mongoose.Schema({
   session: [sessionSchema]
 });
 
-
+// Define the schema for the booking information
 const bookingInfoSchema = new mongoose.Schema({
   name: String,
   address: String,
@@ -41,10 +45,12 @@ const bookingInfoSchema = new mongoose.Schema({
   ticketsBooked: Number
 });
 
+// Create a model for the show data
 const nowShowing = mongoose.model('NowShowing', showSchema, 'nowShowing');
+// Create a model for the booking information
 const bookingInfo = mongoose.model('BookingInfo', bookingInfoSchema, 'bookingInfo');
 
-
+// Get all shows with hasAvailability field added (based on ticket availability)
 app.get('/shows', async (req, res) => {
   try {
     // get all show data
@@ -87,7 +93,7 @@ app.get('/shows', async (req, res) => {
   }
 });
 
-
+// Get genres for the dropdown
 app.get('/genres', async (req, res) => {
   try {
     // Fetch genres data using the getGenres function
@@ -101,6 +107,7 @@ app.get('/genres', async (req, res) => {
   }
 });
 
+// Get dates for the dropdown
 app.get('/dates', async (req, res) => {
   try {
     // Fetch dates data using the getDates function
@@ -226,6 +233,7 @@ app.post('/updateremain', async (req, res) => {
   }
 });
 
+// Start the server
 app.listen(PORT, () => {
   console.log(`Server is running on ${PORT}`);
 });
