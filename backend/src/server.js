@@ -48,7 +48,7 @@ const bookingInfo = mongoose.model('BookingInfo', bookingInfoSchema, 'bookingInf
 app.get('/shows', async (req, res) => {
   try {
     // get all show data
-    const shows = await nowShowing.find();
+    const shows = await nowShowing.find({}, { _id: 0 });
 
     // manipulate the show data to include availability information for each show
     const showsWithSession = shows.map(show => {
