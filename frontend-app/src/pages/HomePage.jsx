@@ -50,7 +50,7 @@ export default function HomePage() {
 
   // apply filters whenever they change
   useEffect(() => {
-    if (filters.genre || filters.date || filters.availability) {
+    if (filters.genre || filters.date || filters.availability || filters.sort) {
       setLoading(true);
       try {
         const filteredShows = originalShows
@@ -67,6 +67,14 @@ export default function HomePage() {
               return show.session.every(session => session.ticketsAvailability.every(ticket => ticket.remain === 0));
             }
             return true;
+          })
+          .sort((a, b) => {
+            if (filters.sort === 'low-high') {
+              return a.session[0].ticketsAvailability[0].price - b.session[0].ticketsAvailability[0].price;
+            } else if (filters.sort === 'high-low') {
+              return b.session[0].ticketsAvailability[0].price - a.session[0].ticketsAvailability[0].price;
+            }
+            return 0;
           });
         setShows(filteredShows);
       } catch (error) {
