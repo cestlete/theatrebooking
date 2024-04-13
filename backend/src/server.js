@@ -45,7 +45,7 @@ const nowShowing = mongoose.model('NowShowing', showSchema, 'nowShowing');
 const bookingInfo = mongoose.model('BookingInfo', bookingInfoSchema, 'bookingInfo');
 
 
-app.get('/home', async (req, res) => {
+app.get('/shows', async (req, res) => {
   try {
     // get all show data
     const shows = await nowShowing.find();
