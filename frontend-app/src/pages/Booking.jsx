@@ -3,9 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import './Booking.css';
 
 const Booking = () => {
-  // const { id } = useParams();
   const navigate = useNavigate();
-  // Fetch movie details based on the `id`
 
   const show = {
     id: 1,
@@ -47,6 +45,10 @@ const Booking = () => {
   const [selectedPrice, setSelectedPrice] = useState(selectedTicketOption.price);
   const [quantity, setQuantity] = useState(1);
   const totalPrice = selectedPrice * quantity;
+  const [fullName, setFullName] = useState('');
+  const [mobile, setMobile] = useState('');
+  const [email, setEmail] = useState('');
+  const [errors, setErrors] = useState({});
 
   const handleDateChange = (newDate) => {
     const newTicketOptions = show.ticketsAvailability[newDate];
@@ -71,15 +73,45 @@ const Booking = () => {
   // ref: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from
   const quantityOptions = Array.from({ length: maxQuantity }, (_, i) => i + 1);
 
-  const handleBooking = () => {
-    // TODO: API call to process the booking
+  const validateForm = () => {
+    let formIsValid = true;
+    let errors = {};
+
+    if (!fullName.trim()) {
+      errors.fullName = 'Full name is required';
+      formIsValid = false;
+    }
+
+    // You can add additional validation logic for mobile and email here
+    if (!mobile.trim()) {
+      errors.mobile = 'Mobile number is required';
+      formIsValid = false;
+    }
+
+    if (!email.trim()) {
+      errors.email = 'Email address is required';
+      formIsValid = false;
+    }
+
+    setErrors(errors);
+    return formIsValid;
+  };
+
+  const handleBooking = (e) => {
+    e.preventDefault();
+    const formIsValid = validateForm();
+    console.log(formIsValid, errors);
+    if (!formIsValid) {
+      return; // Prevent further actions if the form is invalid
+    }
     console.log(`Booked ${quantity} ticket(s) for ${selectedPrice} each on ${selectedDate}`);
+    console.log(`Total Price: ${totalPrice}`, `Full Name: ${fullName}`, `Mobile: ${mobile}`, `Email: ${email}`);
     // uncomment to redirect to confirmation page once booking is confirmed
-    // navigate('/booking-confirmation', {
-    //   state: {
-    //     type: 'success',
-    //   }
-    // });
+    navigate('/booking-confirmation', {
+      state: {
+        type: 'success',
+      }
+    });
 
   };
 
@@ -113,6 +145,41 @@ const Booking = () => {
                 <option key={qty} value={qty}>{qty}</option>
               ))}
             </select>
+          </div>
+          <div className="user-details">
+            <label htmlFor="fullName">Full Name:</label>
+            <input
+              type="text"
+              name="fullName"
+              className={`form-control ${errors.fullName ? 'is-invalid' : ''}`}
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
+              placeholder="Eg: Anna Smith"
+              required
+            />
+            {errors.fullName && <div className="error-message">{errors.fullName}</div>}
+            <label htmlFor="mobile">Mobile:</label>
+            <input
+              type="tel"
+              name="mobile"
+              value={mobile}
+              className={`form-control ${errors.mobile ? 'is-invalid' : ''}`}
+              onChange={(e) => setMobile(e.target.value)}
+              placeholder="Eg: +3538776544"
+              required
+            />
+            {errors.mobile && <div className="error-message">{errors.mobile}</div>}
+            <label htmlFor="mobile">Email Address:</label>
+            <input
+              type="email"
+              name="email"
+              value={email}
+              className={`form-control ${errors.email ? 'is-invalid' : ''}`}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Eg: anna@yahoo.com"
+              required
+            />
+            {errors.email && <div className="error-message">{errors.email}</div>}
           </div>
           <button className="book-btn" onClick={handleBooking}>
             Book {quantity} Ticket(s) for €{totalPrice.toFixed(2)}
