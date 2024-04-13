@@ -6,7 +6,7 @@ import './HomePage.css';
 import loading from '../assets/images/loading.gif';
 
 export default function HomePage() {
-  const [movies, setMovies] = useState([]);
+  const [shows, setShows] = useState([]);
   const [filters, setFilters] = useState({
     genre: '',
     date: '',
@@ -20,14 +20,14 @@ export default function HomePage() {
     axios.get(URL)
       // .then((response) => response.json()) // Original API response could be different commenting it for later
       .then((response) => {
-        setMovies(response.data);
+        setShows(response.data);
       })
       .catch((error) => {
         console.error('Error fetching data: ', error);
       });
   }, []);
 
-  if (movies.length === 0) {
+  if (shows.length === 0) {
     return (
       <div className="loader">
         <img src={loading} alt="page is loading"></img>
@@ -37,18 +37,23 @@ export default function HomePage() {
 
   const handleFilterChange = (newFilters) => {
     setFilters(newFilters);
-    // TODO: make API calls to update the movies list based on the filters selected
+    // TODO: make API calls to update the shows list based on the filters selected
   };
 
   return (
     <>
       <FilterBar onFilterChange={handleFilterChange} />
       <div className="movies-container">
-        {movies.map(movie => (
-          <Link key={movie.id} to={`/movie/${movie.id}`} className="movie-card-link">
-            <div key={movie.id} className="movie-card">
-              <img src={movie.posterURL} alt={movie.title} />
-              <h3>{movie.title}</h3>
+        {shows.map(show => (
+          <Link key={show.id} to={`/movie/${show.id}`} className="movie-card-link" state={
+            {
+              data: show
+            }
+
+          }>
+            <div key={show.id} className="movie-card">
+              <img src={show.posterURL} alt={show.title} />
+              <h3>{show.title}</h3>
             </div>
           </Link>
         ))}
