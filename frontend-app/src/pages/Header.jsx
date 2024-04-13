@@ -7,7 +7,7 @@ const Header = () => {
     <header className="header">
       <div className="container">
         <Link to="/" className="logo">
-          MovieApp
+          Theatre Booking
         </Link>
       </div>
     </header>
