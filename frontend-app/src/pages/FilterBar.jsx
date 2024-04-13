@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './FilterBar.css'; // Make sure to create this CSS file for styling
 
-const FilterBar = ({ onFilterChange }) => {
+const FilterBar = ({ onFilterChange, genres, showDates }) => {
   const [genre, setGenre] = useState('');
   const [date, setDate] = useState('');
   const [availability, setAvailability] = useState('');
@@ -33,22 +33,20 @@ const FilterBar = ({ onFilterChange }) => {
       <div className="filters">
         <select onChange={(e) => handleFilterChange('genre', e.target.value)}>
           <option value="">Select Genre</option>
-          <option value="action">Action</option>
-          <option value="comedy">Comedy</option>
-          <option value="drama">Drama</option>
-          <option value="horror">Horror</option>
-          <option value="romance">Romance</option>
+          {genres.map(genre => (
+            <option key={genre} value={genre.toLowerCase()}>{genre}</option>
+          ))}
         </select>
         <select onChange={(e) => handleFilterChange('date', e.target.value)}>
           <option value="">Select Date</option>
-          {/* Populate with dates */}
+          {showDates.map(date => (
+            <option key={date} value={date}>{date}</option>
+          ))}
         </select>
         <select onChange={(e) => handleFilterChange('availability', e.target.value)}>
           <option value="">Ticket Availability</option>
           <option value="available">Available</option>
           <option value="sold-out">Sold Out</option>
-          <option value="coming-soon">Coming Soon</option>
-          <option value="pre-order">Pre-order</option>
         </select>
         <select onChange={(e) => handleFilterChange('sort', e.target.value)}>
           <option value="">Sort by Price</option>

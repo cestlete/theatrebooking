@@ -1,6 +1,8 @@
 // update api url here
 const API_URLS = {
-  getAllShows: 'https://mock-api.driven.com.br/api/v2/cineflex/movies',
+  getAllShows: 'http://localhost:8000/shows',
+  getAllGenres: 'http://localhost:8000/genres',
+  getShowDates: 'http://localhost:8000/dates',
   sendBooking: '',
 };
 
