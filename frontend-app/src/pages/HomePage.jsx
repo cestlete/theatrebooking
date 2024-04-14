@@ -48,34 +48,50 @@ export default function HomePage() {
     setFilters(prevFilters => ({ ...prevFilters, ...newFilters }));
   };
 
+  const filterByGenre = (shows, genre) => {
+    return genre ? shows.filter(show => show.genre.includes(genre)) : shows;
+  };
+
+  const filterByDate = (shows, date) => {
+    return date ? shows.filter(show => show.session.some(session => session.date === date)) : shows;
+  };
+
+  const filterByAvailability = (shows, availability) => {
+    const hasAvailableTickets = (session) => session.ticketsAvailability.some(ticket => ticket.remain > 0);
+    const isSoldOut = (session) => session.ticketsAvailability.every(ticket => ticket.remain === 0);
+
+    if (availability === 'available') {
+      return shows.filter(show => show.session.some(hasAvailableTickets));
+    } else if (availability === 'sold-out') {
+      return shows.filter(show => show.session.every(isSoldOut));
+    }
+    return shows;
+  };
+
+  const sortByPrice = (shows, sortOrder) => {
+    return shows.sort((a, b) => {
+      if (sortOrder === 'low-high') {
+        return a.session[0].ticketsAvailability[0].price - b.session[0].ticketsAvailability[0].price;
+      } else if (sortOrder === 'high-low') {
+        return b.session[0].ticketsAvailability[0].price - a.session[0].ticketsAvailability[0].price;
+      }
+      return 0;
+    });
+  };
+
+
   // apply filters whenever they change
   useEffect(() => {
     if (filters.genre || filters.date || filters.availability || filters.sort) {
       setLoading(true);
       try {
-        const filteredShows = originalShows
-          .filter(show => {
-            return filters.genre ? show.genre.includes(filters.genre) : true;
-          })
-          .filter(show => {
-            return filters.date ? show.session.some(session => session.date === filters.date) : true;
-          })
-          .filter(show => {
-            if (filters.availability === 'available') {
-              return show.session.some(session => session.ticketsAvailability.some(ticket => ticket.remain > 0));
-            } else if (filters.availability === 'sold-out') {
-              return show.session.every(session => session.ticketsAvailability.every(ticket => ticket.remain === 0));
-            }
-            return true;
-          })
-          .sort((a, b) => {
-            if (filters.sort === 'low-high') {
-              return a.session[0].ticketsAvailability[0].price - b.session[0].ticketsAvailability[0].price;
-            } else if (filters.sort === 'high-low') {
-              return b.session[0].ticketsAvailability[0].price - a.session[0].ticketsAvailability[0].price;
-            }
-            return 0;
-          });
+        let filteredShows = originalShows;
+        filteredShows = filterByGenre(filteredShows, filters.genre);
+        filteredShows = filterByDate(filteredShows, filters.date);
+        filteredShows = filterByAvailability(filteredShows, filters.availability);
+        if (filters.sort) {
+          filteredShows = sortByPrice(filteredShows, filters.sort);
+        }
         setShows(filteredShows);
       } catch (error) {
         setError(error);
@@ -83,7 +99,8 @@ export default function HomePage() {
         setLoading(false);
       }
     }
-  }, [filters]); // update whenever filters change
+  }, [filters, originalShows]);
+  // update whenever filters change
 
   if (loading) {
     return (
@@ -91,6 +108,14 @@ export default function HomePage() {
         <img src={loader} alt="page is loading"></img>
       </div>
     )
+  }
+
+  if (error) {
+    return (
+      <div className="loader">
+        <div className="error">{error.message}</div>
+      </div>
+    );
   }
 
   return (

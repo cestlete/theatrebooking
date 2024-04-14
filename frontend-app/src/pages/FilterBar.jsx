@@ -1,31 +1,26 @@
 import React, { useState } from 'react';
-import './FilterBar.css'; // Make sure to create this CSS file for styling
+import './FilterBar.css';
+import PropTypes from 'prop-types';
 
 const FilterBar = ({ onFilterChange, genres, showDates }) => {
-  const [genre, setGenre] = useState('');
-  const [date, setDate] = useState('');
-  const [availability, setAvailability] = useState('');
-  const [sort, setSort] = useState('');
+
+  FilterBar.propTypes = {
+    onFilterChange: PropTypes.func.isRequired,
+    genres: PropTypes.array.isRequired,
+    showDates: PropTypes.array.isRequired,
+  };
+
+  const [filters, setFilters] = useState({
+    genre: '',
+    date: '',
+    availability: '',
+    sort: ''
+  });
 
   const handleFilterChange = (filterType, value) => {
-    switch (filterType) {
-      case 'genre':
-        setGenre(value);
-        break;
-      case 'date':
-        setDate(value);
-        break;
-      case 'availability':
-        setAvailability(value);
-        break;
-      case 'sort':
-        setSort(value);
-        break;
-      default:
-        break;
-    }
-
-    onFilterChange({ genre, date, availability, sort, [filterType]: value });
+    const updatedFilters = { ...filters, [filterType]: value };
+    setFilters(updatedFilters);
+    onFilterChange(updatedFilters);
   };
 
   return (
