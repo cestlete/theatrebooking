@@ -67,8 +67,6 @@ const HomePage = () => {
   };
   const [filters, setFilters] = useState(defaultFilters);
 
-  const URL = 'https://mock-api.driven.com.br/api/v2/cineflex/movies';
-
   useEffect(() => {
     // set loading to true before making API calls
     setLoading(true);
@@ -141,7 +139,7 @@ const HomePage = () => {
       />
       <div className="movies-container">
         <ShowCard shows={shows} />
-      </div >
+      </div>
     </>
   )
 }
