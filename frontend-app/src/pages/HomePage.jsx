@@ -62,8 +62,6 @@ export default function HomePage() {
     sort: '',
   });
 
-  const URL = 'https://mock-api.driven.com.br/api/v2/cineflex/movies';
-
   useEffect(() => {
     // set loading to true before making API calls
     setLoading(true);
@@ -120,7 +118,7 @@ export default function HomePage() {
       <FilterBar genres={genres} showDates={showDates} onFilterChange={handleFilterChange} />
       <div className="movies-container">
         <ShowCard shows={shows} />
-      </div >
+      </div>
     </>
   )
 }
