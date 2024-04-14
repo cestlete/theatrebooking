@@ -50,6 +50,13 @@
   height: auto;
 }
 
+.no-shows {
+  text-align: center;
+  padding: 20px;
+  font-size: 18px;
+  color: #666;
+}
+
 /* Media queries for responsive design */
 @media (max-width: 1200px) {
   .movie-card-link {
@@ -74,4 +81,3 @@
     flex: 0 0 100%; /* 1 item in a row on small phones */
   }
 }
-

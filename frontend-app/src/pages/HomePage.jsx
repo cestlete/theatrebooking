@@ -5,6 +5,48 @@ import FilterBar from './FilterBar';
 import './HomePage.css';
 import loader from '../assets/images/loading.gif';
 import API_URLS from '../config';
+import { filterByGenre, filterByDate, filterByAvailability, sortByPrice } from '../utils/filterFunctions';
+import PropTypes from 'prop-types';
+
+const ShowCard = ({ shows }) => {
+  if (shows.length === 0) {
+    return <div className="no-shows">No shows found.</div>;
+  }
+  return shows.map(show => (
+    <Link key={show.showId} to={`/movie/${show.showId}`} className="movie-card-link" state={
+      {
+        data: show
+      }
+    }>
+      <div key={show.showId} className="movie-card">
+        {/* temporary image url if no poster image exists */}
+        <img src={show?.posterURL || 'https://image.tmdb.org/t/p/w500/riYInlsq2kf1AWoGm80JQW5dLKp.jpg'}
+          alt={show.showName} />
+        <h3>{show.showName}</h3>
+      </div>
+    </Link>
+  ));
+};
+
+const LoadingComponent = () => (
+  <div className="loader">
+    <img src={loader} alt="page is loading"></img>
+  </div>
+);
+
+const ErrorComponent = ({ message }) => (
+  <div className="loader">
+    <div className="error">{message}</div>
+  </div>
+);
+
+ShowCard.propTypes = {
+  shows: PropTypes.array.isRequired,
+};
+
+ErrorComponent.propTypes = {
+  message: PropTypes.string.isRequired,
+};
 
 export default function HomePage() {
   const [shows, setShows] = useState([]);
@@ -48,39 +90,6 @@ export default function HomePage() {
     setFilters(prevFilters => ({ ...prevFilters, ...newFilters }));
   };
 
-  const filterByGenre = (shows, genre) => {
-    return genre ? shows.filter(show => show.genre.includes(genre)) : shows;
-  };
-
-  const filterByDate = (shows, date) => {
-    return date ? shows.filter(show => show.session.some(session => session.date === date)) : shows;
-  };
-
-  const filterByAvailability = (shows, availability) => {
-    const hasAvailableTickets = (session) => session.ticketsAvailability.some(ticket => ticket.remain > 0);
-    const isSoldOut = (session) => session.ticketsAvailability.every(ticket => ticket.remain === 0);
-
-    if (availability === 'available') {
-      return shows.filter(show => show.session.some(hasAvailableTickets));
-    } else if (availability === 'sold-out') {
-      return shows.filter(show => show.session.every(isSoldOut));
-    }
-    return shows;
-  };
-
-  const sortByPrice = (shows, sortOrder) => {
-    return shows.sort((a, b) => {
-      if (sortOrder === 'low-high') {
-        return a.session[0].ticketsAvailability[0].price - b.session[0].ticketsAvailability[0].price;
-      } else if (sortOrder === 'high-low') {
-        return b.session[0].ticketsAvailability[0].price - a.session[0].ticketsAvailability[0].price;
-      }
-      return 0;
-    });
-  };
-
-
-  // apply filters whenever they change
   useEffect(() => {
     if (filters.genre || filters.date || filters.availability || filters.sort) {
       setLoading(true);
@@ -100,43 +109,15 @@ export default function HomePage() {
       }
     }
   }, [filters, originalShows]);
-  // update whenever filters change
 
-  if (loading) {
-    return (
-      <div className="loader">
-        <img src={loader} alt="page is loading"></img>
-      </div>
-    )
-  }
-
-  if (error) {
-    return (
-      <div className="loader">
-        <div className="error">{error.message}</div>
-      </div>
-    );
-  }
+  if (loading) return <LoadingComponent />;
+  if (error) return <ErrorComponent message={error.message} />;
 
   return (
     <>
       <FilterBar genres={genres} showDates={showDates} onFilterChange={handleFilterChange} />
       <div className="movies-container">
-        {shows.map(show => (
-          <Link key={show.showId} to={`/movie/${show.showId}`} className="movie-card-link" state={
-            {
-              data: show
-            }
-
-          }>
-            <div key={show.showId} className="movie-card">
-              {/* temporary image url if no poster image exists */}
-              <img src={show?.posterURL || 'https://image.tmdb.org/t/p/w500/riYInlsq2kf1AWoGm80JQW5dLKp.jpg'}
-                alt={show.showName} />
-              <h3>{show.showName}</h3>
-            </div>
-          </Link>
-        ))}
+        <ShowCard shows={shows} />
       </div>
     </>
   )
