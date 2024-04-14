@@ -1,6 +1,17 @@
+/**
+ * Description: Controller for booking-related operations.
+ */
+
 const Booking = require('../models/booking');
 const Show = require('../models/show');
 
+/**
+ * Retrieves booking details by ID.
+ * 
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object 
+ * @returns {Object} - JSON response with booking details or error message 
+ */
 exports.getBookingDetails = async (req, res) => {
   const { id } = req.params;
   try {
@@ -15,6 +26,14 @@ exports.getBookingDetails = async (req, res) => {
   }
 };
 
+/**
+ * Books a show by updating ticket availability and creating a booking record.
+ * Only saves the booking record if updating the remaining tickets is successful.
+ *
+ * @param {Object} req - Express request object containing showId, date, price, ticketsBooked, and bookingDetails
+ * @param {Object} res - Express response object
+ * @returns {Object} - JSON response indicating success or failure of booking creation
+ */
 exports.bookShow = async (req, res) => {
   const { showId, date, price, ticketsBooked, bookingDetails } = req.body;
   try {

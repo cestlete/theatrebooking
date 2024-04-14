@@ -1,10 +1,12 @@
-// Description: MongoDB connection and data fetching functions.
+/**
+ * Description: 
+ * MongoDB connection and data fetching functions.
+ */
 
 const mongoose = require('mongoose');
 const uri = process.env.MONGODB_URL;
 
 // Connect to MongoDB
-
 const connectToDB = async () => {
   try {
     await mongoose.connect(uri, {

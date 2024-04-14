@@ -1,3 +1,9 @@
+/**
+ * Description:
+ * This file defines the Mongoose schema and model for managing booking information.
+ * The Booking model is exported to be used in other parts of the application.
+ */
+
 const mongoose = require('mongoose');
 
 const bookingInfoSchema = new mongoose.Schema({
@@ -11,4 +17,5 @@ const bookingInfoSchema = new mongoose.Schema({
 });
 
 const Booking = mongoose.model('BookingInfo', bookingInfoSchema, 'bookingInfo');
+
 module.exports = Booking;
