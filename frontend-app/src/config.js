@@ -1,8 +1,8 @@
 // update api url here
 const API_URLS = {
-  getAllShows: process.env.API_URL_GET_ALL_SHOWS,
-  getAllGenres: process.env.API_URL_GET_ALL_GENRES,
-  getShowDates: process.env.API_URL_GET_SHOW_DATES,
+  getAllShows: process.env.REACT_APP_API_URL_GET_ALL_SHOWS,
+  getAllGenres: process.env.REACT_APP_API_URL_GET_ALL_GENRES,
+  getShowDates: process.env.REACT_APP_API_URL_GET_SHOW_DATES,
   sendBooking: '',
 };
 

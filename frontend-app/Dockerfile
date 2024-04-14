@@ -8,6 +8,9 @@ RUN npm install
 
 COPY . ./
 
+#Overwrite the env file with the production one.
+COPY .env.production .env
+
 EXPOSE 3000
 
 CMD ["npm", "start"]
