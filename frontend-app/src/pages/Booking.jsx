@@ -52,7 +52,6 @@ const Booking = () => {
       formIsValid = false;
     }
 
-    // You can add additional validation logic for mobile and email here
     if (!mobile.trim()) {
       errors.mobile = 'Mobile number is required';
       formIsValid = false;
@@ -72,7 +71,7 @@ const Booking = () => {
     const formIsValid = validateForm();
     console.log(formIsValid, errors);
     if (!formIsValid) {
-      return; // Prevent further actions if the form is invalid
+      return; // no further actions if the form is invalid
     }
     console.log(`Booked ${quantity} ticket(s) for ${selectedPrice} each on ${selectedDate}`);
     console.log(`Total Price: ${totalPrice}`, `Full Name: ${fullName}`, `Mobile: ${mobile}`, `Email: ${email}`);

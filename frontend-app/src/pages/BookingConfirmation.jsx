@@ -2,10 +2,9 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import './BookingConfirmation.css';
 
-const BookingConfirmation = ({ }) => {
+const BookingConfirmation = () => {
   const location = useLocation();
   const { type } = location.state || {};
-  console.log(location.state);
   return (
     <>
       {type === "success" ? (
