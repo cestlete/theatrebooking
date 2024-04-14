@@ -4,9 +4,9 @@
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   max-width: 800px;
-  margin: 2rem auto;
+  margin: 32px auto;
   background: #fff;
-  padding: 2rem;
+  padding: 32px;
 }
 
 .language,
@@ -15,14 +15,14 @@
 .rating {
   background: #f0f0f0;
   border-radius: 15px;
-  padding: 0.2rem 0.6rem;
+  padding: 3.2px 9.6px;
   color: #555;
 }
 
 .movie-body h2 {
-  font-size: 1.5rem;
+  font-size: 24px;
   color: #444;
-  margin: 0.5rem 0;
+  margin: 8px 0;
 }
 
 .movie-image {
@@ -33,27 +33,27 @@
 }
 
 .movie-content {
-  padding: 1em;
+  padding: 16px;
 }
 
 .movie-title {
-  margin: 0.5em 0;
-  font-size: 2em;
+  margin: 8px 0;
+  font-size: 32px;
 }
 
 .movie-info {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  margin: 1em 0;
+  margin: 16px 0;
   border-bottom: 1px solid #eaeaea;
-  padding-bottom: 1.5rem;
+  padding-bottom: 24px;
 }
 
 .movie-content h2 {
-  font-size: 1.5rem;
+  font-size: 24px;
   color: #444;
-  margin: 0.5rem 0;
+  margin: 8px 0;
 }
 
 .btn-container {
@@ -63,14 +63,14 @@
 .btn {
   background-color: #37bae5;
   color: white;
-  padding: 0.8rem 1.6rem;
+  padding: 12.8px 25.6px;
   border: none;
   border-radius: 5px;
   border-radius: 20px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  font-size: 1rem;
-  margin-top: 1rem;
+  font-size: 16px;
+  margin-top: 16px;
   text-decoration: none;
 }
 
@@ -79,10 +79,10 @@
 }
 
 .description {
-  font-size: 1rem;
-  line-height: 1.6;
+  font-size: 16px;
+  line-height: 25.6px;
   color: #666;
-  margin-bottom: 10px;
+  margin-bottom: 16px;
 }
 
 /* Responsive design */
@@ -94,15 +94,15 @@
 
   .movie-content {
     flex: 2;
-    padding-left: 2em;
+    padding-left: 32px;
   }
 }
 
 @media (min-width: 1024px) {
   .movie-detail {
-    margin: 2em auto;
+    margin: 32px auto;
     max-width: 1024px;
-    padding-left: 2em;
+    padding-left: 32px;
   }
 }
 

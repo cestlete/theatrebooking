@@ -21,9 +21,8 @@ export default function HomePage() {
   });
 
   useEffect(() => {
-    // Set loading to true before making API calls
+    // set loading to true before making API calls
     setLoading(true);
-
     const fetchData = async () => {
       try {
         const [shows, genres, showDates] = await Promise.all([
@@ -45,6 +44,7 @@ export default function HomePage() {
   }, []);
 
   const handleFilterChange = (newFilters) => {
+    // merge new filters with existing filters and update the state
     setFilters(prevFilters => ({ ...prevFilters, ...newFilters }));
   };
 
@@ -83,7 +83,7 @@ export default function HomePage() {
         setLoading(false);
       }
     }
-  }, [filters]);
+  }, [filters]); // update whenever filters change
 
   if (loading) {
     return (
@@ -105,7 +105,9 @@ export default function HomePage() {
 
           }>
             <div key={show.showId} className="movie-card">
-              <img src={show?.posterURL || 'https://image.tmdb.org/t/p/w500/riYInlsq2kf1AWoGm80JQW5dLKp.jpg'} alt={show.showName} />
+              {/* temporary image url if no poster image exists */}
+              <img src={show?.posterURL || 'https://image.tmdb.org/t/p/w500/riYInlsq2kf1AWoGm80JQW5dLKp.jpg'}
+                alt={show.showName} />
               <h3>{show.showName}</h3>
             </div>
           </Link>
