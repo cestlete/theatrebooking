@@ -21,7 +21,12 @@ export const filterByAvailability = (shows, availability) => {
 export const sortByPrice = (shows, sortOrder) => {
   // creating a new array for immutability
   return [...shows].sort((a, b) => {
-    // getting the minimum price from all tickets in a session
+    /*
+      a.session.flatMap(s => s) => [{date: "", ticketsAvailability: [{price: 55, remain: 1 }, {}]}, {}]
+      a.session.flatMap(s => s.ticketsAvailability.map(t => t.price)) => [55, 60, 65, 70]
+      Math.min(...a.session.flatMap(s => s.ticketsAvailability.map(t => t.price))) => 55
+      getting the minimum price from all tickets in a session and sorting based on that
+    */
     const minPriceA = Math.min(...a.session.flatMap(s => s.ticketsAvailability.map(t => t.price)));
     const minPriceB = Math.min(...b.session.flatMap(s => s.ticketsAvailability.map(t => t.price)));
     return sortOrder === 'low-high' ? minPriceA - minPriceB : minPriceB - minPriceA;
