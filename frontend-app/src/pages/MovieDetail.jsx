@@ -6,26 +6,29 @@ const MovieDetail = () => {
 	const navigate = useNavigate();
 	const location = useLocation();
 	const { data } = location.state || {};
-	// Use data instead of show. Change from show. to data.
-	// console.log(data);
 
-	const show = {
-		id: data.ShowId,
+	const formatSessions = (sessions) => {
+		return sessions.map(({ date, ticketsAvailability }) => ({
+			date,
+			tickets: ticketsAvailability.map(({ price, remain }) => ({
+				price,
+				remain
+			}))
+		}));
+	};
+
+	const show = data ? {
+		id: data.showId, // ensure the property name is consistent (ShowId vs showId)
 		title: data.showName,
 		genre: data.genre,
 		description: data.briefDescription,
 		posterSrc: data.posterURL,
-		ticketsAvailability: data.session.map(session => ({
-			date: session.date,
-			tickets: session.ticketsAvailability.map(ticket => ({
-				price: ticket.price,
-				remain: ticket.remain
-			}))
-		}))
-	};
+		ticketsAvailability: formatSessions(data.session),
+		_id: data._id
+	} : {};
 
 	const handleSubmit = () => {
-		navigate(`/booking/${data.showName}`, {
+		navigate(`/booking/${data.showId}`, {
 			state: {
 				data: show
 			}
@@ -34,13 +37,13 @@ const MovieDetail = () => {
 
 	return (
 		<div className='movie-detail'>
-			<img src={data.posterURL || 'https://image.tmdb.org/t/p/w500/riYInlsq2kf1AWoGm80JQW5dLKp.jpg'} alt={data.showName} />
+			<img className='movie-image' src={data.posterURL || 'https://image.tmdb.org/t/p/w500/riYInlsq2kf1AWoGm80JQW5dLKp.jpg'} alt={data.showName} />
 			<div className='movie-content'>
 				<h1 className='movie-title'>{show.title}</h1>
 				<div className='movie-info'>
-					<ul className='genre'>{data.genre.map((genre, index) => (
-						<li key={index}>{genre}</li> // Using the index as a key here; ideally, use a unique ID if available
-					))}</ul>
+					<div className='genre-container'>{data.genre.map((genre, index) => (
+						<p className='genre' key={index + 1}>{genre}</p> // Using the index as a key here; ideally, use a unique ID if available
+					))}</div>
 				</div>
 				<h2>About the movie</h2>
 				<p className='description'>{show.description}</p>
