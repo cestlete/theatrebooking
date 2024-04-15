@@ -1,4 +1,32 @@
 /**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Show:
+ *       type: object
+ *       properties:
+ *         showName:
+ *           type: string
+ *         genre:
+ *           type: array
+ *           items:
+ *             type: string
+ *         briefDescription:
+ *           type: string
+ *         session:
+ *           type: array
+ *           items:
+ *             type: object
+ *             properties:
+ *               date:
+ *                 type: string
+ *               ticketsAvailability:
+ *                 type: array
+ *                 items:
+ *                   $ref: '#/components/schemas/TicketsAvailability'
+ */
+
+/**
  * Description:
  * This file defines the Mongoose schemas and model for managing shows information.
  * It includes schemas for tickets availability, sessions, and shows.

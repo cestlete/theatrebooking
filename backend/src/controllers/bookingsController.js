@@ -6,6 +6,46 @@ const Booking = require('../models/booking');
 const Show = require('../models/show');
 
 /**
+ * @swagger
+ * /api/bookings/{id}:
+ *   get:
+ *     summary: Retrieve booking details by ID
+ *     description: Retrieve booking details by its ID
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Booking details
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Booking'
+ *       404:
+ *         description: Booking not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Booking not found
+ *       500:
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ */
+
+/**
  * Retrieves booking details by ID.
  * 
  * @param {Object} req - Express request object
@@ -25,6 +65,84 @@ exports.getBookingDetails = async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+
+/**
+ * @swagger
+ * /api/bookings:
+ *   post:
+ *     summary: Book a show
+ *     description: Book a show by providing show ID, date, price, number of tickets booked, and booking details
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               showId:
+ *                 type: string
+ *               date:
+ *                 type: string
+ *                 format: date
+ *               price:
+ *                 type: number
+ *               ticketsBooked:
+ *                 type: integer
+ *               bookingDetails:
+ *                 $ref: '#/components/schemas/Booking'
+ *     responses:
+ *       201:
+ *         description: Booking created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 type:
+ *                   type: string
+ *                   example: success
+ *                 message:
+ *                   type: string
+ *                   example: Booking created successfully
+ *                 booking:
+ *                   $ref: '#/components/schemas/Booking'
+ *       400:
+ *         description: Not enough tickets available or wrong price
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 type:
+ *                   type: string
+ *                   example: failure
+ *                 error:
+ *                   type: string
+ *                   example: Not enough tickets available or wrong price
+ *       404:
+ *         description: Show not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Show not found
+ *       500:
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 type:
+ *                   type: string
+ *                   example: failure
+ *                 error:
+ *                   type: string
+ *                   example: Internal Server Error
+ */
 
 /**
  * Books a show by updating ticket availability and creating a booking record.

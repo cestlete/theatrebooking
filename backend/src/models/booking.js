@@ -1,4 +1,27 @@
 /**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Booking:
+ *       type: object
+ *       properties:
+ *         name:
+ *           type: string
+ *         address:
+ *           type: string
+ *         phoneNumber:
+ *           type: string
+ *         date:
+ *           type: string
+ *         price:
+ *           type: number
+ *         showName:
+ *           type: string
+ *         ticketsBooked:
+ *           type: number
+ */
+
+/**
  * Description:
  * This file defines the Mongoose schema and model for managing booking information.
  * The Booking model is exported to be used in other parts of the application.
