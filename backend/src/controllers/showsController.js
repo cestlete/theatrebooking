@@ -15,7 +15,8 @@ const { getGenres, getDates } = require('../utils/db');
  */
 exports.getShows = async (req, res) => {
   try {
-    const shows = await Show.find({}); // Retrieve all shows from the database
+    // Retrieve all shows from the database
+    const shows = await Show.find({}); 
      // Calculate total remaining tickets for each show
     const showsWithSession = shows.map(show => {
       let totalRemain = 0;
@@ -26,8 +27,8 @@ exports.getShows = async (req, res) => {
       });
       return {
         ...show._doc,
-        hasAvailability: totalRemain > 0
-         // set hasAvailability depending on remaining tickets
+        // Set hasAvailability depending on remaining tickets
+        hasAvailability: totalRemain > 0         
       };
     });
     res.json(showsWithSession); // 
