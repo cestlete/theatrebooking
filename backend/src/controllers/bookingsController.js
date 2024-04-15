@@ -13,14 +13,16 @@ const Show = require('../models/show');
  * @returns {Object} - JSON response with booking details or error message 
  */
 exports.getBookingDetails = async (req, res) => {
-  const { id } = req.params; // Extract 'id' from request parameters
+  // Extract 'id' from request parameters
+  const { id } = req.params; 
   try {
-    const booking = await Booking.findById(id); // try retrieve booking from database
+    // Try retrieve booking from database
+    const booking = await Booking.findById(id); 
     if (!booking) {
-      // if no booking found
+      // If no booking found
       return res.status(404).json({ error: 'Booking not found' });
     }
-    // otherwise, return booking as JSON
+    // Otherwise, return booking as JSON
     res.json(booking);
   } catch (error) {
     // Log any errors if they occour
@@ -38,12 +40,15 @@ exports.getBookingDetails = async (req, res) => {
  * @returns {Object} - JSON response indicating success or failure of booking creation
  */
 exports.bookShow = async (req, res) => {
-  const { showId, date, price, ticketsBooked, bookingDetails } = req.body; // USe required fields from body
+  // Use required fields from body
+  const { showId, date, price, ticketsBooked, bookingDetails } = req.body; 
   try {
-    const show = await Show.findById(showId); // Retrieve show using 'showId'
+    // Retrieve show using 'showId'
+    const show = await Show.findById(showId); 
     if (!show) return res.status(404).json({ error: 'Show not found' });
 
-    let remainUpdated = false; // Track if ticket availability has been updated
+    // Track if ticket availability has been updated
+    let remainUpdated = false; 
     show.session.forEach(session => {
       if (session.date === date) {
         // Check for specific date in 'session'
@@ -58,10 +63,12 @@ exports.bookShow = async (req, res) => {
       }
     });
 
+    // If update failed return status 400
     if (!remainUpdated) return res.status(400).json({ type: 'failure', error: 'Not enough tickets available or wrong price' });
-     // if update failed return status 400
-    await show.save(); // Save updated show
-    const booking = await Booking.create(bookingDetails); // Create new booking record
+    // Otherwise, save updated show
+    await show.save(); 
+    // Create new booking record
+    const booking = await Booking.create(bookingDetails); 
     res.status(201).json({ type: 'success', message: 'Booking created successfully', booking });
   } catch (error) {
     console.error('Error making booking:', error);
