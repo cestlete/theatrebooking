@@ -18,3 +18,17 @@
   border-radius: 5px;
   border: 1px solid #ccc;
 }
+
+.clear-filters-btn {
+  padding: 10px 20px;
+  margin-top: 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.clear-filters-btn:hover {
+  background-color: #0056b3;
+}
