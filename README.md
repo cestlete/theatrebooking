@@ -8,6 +8,9 @@
 
 [Swagger for Backend](https://theatrebooking.onrender.com/api-docs/)
 
+## Github
+https://github.com/cestlete/theatrebooking.git
+
 ## Overview
 This project is a Theatre Booking Application developed using React and Node.js. The frontend is built with React, providing a dynamic and responsive user interface for booking theatre shows. The backend, developed with Node.js and Express, handles API requests, data processing, and interactions with a database.
 
