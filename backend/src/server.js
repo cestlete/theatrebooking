@@ -1,19 +1,5 @@
 require('dotenv').config();
 // Import libraries
-const express = require('express'); // HTTP requests 
-const cors = require('cors'); // Cross origin requests
-// Import route handlers
-const showRoutes = require('./routes/showRoutes'); // Shows
-const bookingRoutes = require('./routes/bookingRoutes'); // Bookings
-// Import utility to connect to database
-const { connectToDB } = require('./utils/db');
-const swaggerUi = require('swagger-ui-express');
-const swaggerDocument = require('./swagger/swagger.json'); // Assuming you have swagger.json file in the swagger folder
-const swaggerDefinition = require('./swagger/swaggerDefinition');
-
-connectToDB();
-
-// Import libraries
 // - HTTP requests 
 const express = require('express');
 // - Cross origin requests
@@ -28,7 +14,9 @@ const bookingRoutes = require('./routes/bookingRoutes');
 // Establish Database Connection:
 const { connectToDB } = require('./utils/db');
 connectToDB();
-
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger/swagger.json'); // Assuming you have swagger.json file in the swagger folder
+const swaggerDefinition = require('./swagger/swaggerDefinition');
 // Create Express Application Instance
 const app = express();
 

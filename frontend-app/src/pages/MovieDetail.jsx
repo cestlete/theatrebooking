@@ -1,5 +1,5 @@
 import React from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import './MovieDetail.css';
 
 const MovieDetail = () => {
@@ -39,16 +39,16 @@ const MovieDetail = () => {
 		<div className='movie-detail'>
 			<img className='movie-image' src={data.posterURL || 'https://image.tmdb.org/t/p/w500/riYInlsq2kf1AWoGm80JQW5dLKp.jpg'} alt={data.showName} />
 			<div className='movie-content'>
-				<h1 className='movie-title'>{movie.title}</h1>
+				<h1 className='movie-title'>{show.title}</h1>
 				<div className='movie-info'>
 					<div className='genre-container'>{data.genre.map((genre, index) => (
 						<p className='genre' key={index + 1}>{genre}</p> // Using the index as a key here; ideally, use a unique ID if available
 					))}</div>
 				</div>
 				<h2>About the movie</h2>
-				<p className='description'>{movie.description}</p>
+				<p className='description'>{show.description}</p>
 				<div className='btn-container'>
-					<Link to={`/booking/${movie.id}`} className='btn'>Book Tickets</Link>
+					<button className='btn' onClick={() => handleSubmit()}>Book Tickets</button>
 				</div>
 			</div>
 		</div>

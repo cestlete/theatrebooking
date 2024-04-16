@@ -5,7 +5,6 @@ import API_URLS from '../config';
 import './Booking.css';
 
 const Booking = () => {
-  // const { id } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
   const { data } = location.state || {
@@ -97,7 +96,7 @@ const Booking = () => {
     };
 
     try {
-      const response = await axios.post('http://localhost:8000/api/bookshow', bookingData);
+      const response = await axios.post(API_URLS.bookTicket, bookingData);
       console.log('Booking successful', response.data);
       navigate('/booking-confirmation', {
         state: {
@@ -114,7 +113,7 @@ const Booking = () => {
   return (
     <div className="booking-page">
       <div className="booking-container">
-        <h1 className="booking-title">Book Tickets for <br />{show.title}</h1>
+        <h1 className="booking-title">Book Tickets for <br />{data.title}</h1>
         <div className="booking-details">
           <p className="booking-info">{data.genre.join(', ')} | Rated PG-13</p>
           <p className="booking-description">{data.description}</p>
