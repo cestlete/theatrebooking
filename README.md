@@ -72,3 +72,10 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - **Jyoti and Jasmine** - Frontend Development: Focused on developing the client-side interface, ensuring user-friendly interactions and responsiveness. Also involved in the integration of backend services with the frontend, facilitating seamless data exchange and dynamic content updates.
 - **David** - Architecture: Oversaw the overall software architecture, ensuring the system is robust, scalable, and well-integrated.
 
+| Student ID | Name |
+|----------|----------|
+| 22252910  | Karl Mulraney |
+| 23250192  | Mengqi Hao   |
+| 15324996  | David O’Callaghan |
+| 23250985  | Jyoti Suvarna     |
+| 18482194  | Wingyin Ha     |
