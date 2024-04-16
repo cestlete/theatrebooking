@@ -97,7 +97,6 @@ const Booking = () => {
 
     try {
       const response = await axios.post(API_URLS.bookTicket, bookingData);
-      console.log('Booking successful', response.data);
       navigate('/booking-confirmation', {
         state: {
           type: response.data.type,

@@ -90,6 +90,11 @@
   margin-bottom: 16px;
 }
 
+.btn:disabled {
+  background-color: #555;
+  cursor: not-allowed;
+}
+
 /* Responsive design */
 @media (min-width: 768px) {
   .movie-detail {
