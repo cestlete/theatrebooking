@@ -46,6 +46,7 @@ exports.getAllBookings = async (req, res) => {
     res.json(bookings); // Return all bookings
   } catch (error) {
     console.error('Error fetching bookings:', error);
+    
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
@@ -137,16 +138,22 @@ exports.getAllBookings = async (req, res) => {
  * @returns {Object} - JSON response indicating success or failure of booking creation
  */
 exports.bookShow = async (req, res) => {
-  const { showId, date, price, ticketsBooked, bookingDetails } = req.body;
+  // Use required fields from body
+  const { showId, date, price, ticketsBooked, bookingDetails } = req.body; 
   try {
-    const show = await Show.findById(showId);
+    // Retrieve show using 'showId'
+    const show = await Show.findById(showId); 
     if (!show) return res.status(404).json({ error: 'Show not found' });
 
-    let remainUpdated = false;
+    // Track if ticket availability has been updated
+    let remainUpdated = false; 
     show.session.forEach(session => {
       if (session.date === date) {
+        // Check for specific date in 'session'
         session.ticketsAvailability.forEach(ticket => {
+          // Iterate over ticket types for that date
           if (ticket.price === parseFloat(price) && (ticket.remain - ticketsBooked >= 0)) {
+            // Update ticket count if there are tickets available 
             ticket.remain -= ticketsBooked;
             remainUpdated = true;
           }
@@ -154,10 +161,12 @@ exports.bookShow = async (req, res) => {
       }
     });
 
+    // If update failed return status 400
     if (!remainUpdated) return res.status(400).json({ type: 'failure', error: 'Not enough tickets available or wrong price' });
-
-    await show.save();
-    const booking = await Booking.create(bookingDetails);
+    // Otherwise, save updated show
+    await show.save(); 
+    // Create new booking record
+    const booking = await Booking.create(bookingDetails); 
     res.status(201).json({ type: 'success', message: 'Booking created successfully', booking });
   } catch (error) {
     console.error('Error making booking:', error);
