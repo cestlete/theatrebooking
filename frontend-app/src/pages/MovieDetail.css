@@ -9,11 +9,6 @@
   padding: 32px;
 }
 
-.genre-container {
-  display: flex;
-  gap: 8px;
-}
-
 .language,
 .duration,
 .genre,

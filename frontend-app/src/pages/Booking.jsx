@@ -1,41 +1,36 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
-import API_URLS from '../config';
 import './Booking.css';
 
 const Booking = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { data } = location.state || {
-    title: "",
-    genre: [],
-    description: "",
-    ticketsAvailability: [],
-    _id: ""
-  };
+  const { data } = location.state || {};
 
-  const [selectedDate, setSelectedDate] = useState(data.ticketsAvailability.length > 0 ? data.ticketsAvailability[0].date : '');
-  const [selectedTicketOption, setSelectedTicketOption] = useState(data.ticketsAvailability.length > 0 && data.ticketsAvailability[0].tickets.length > 0 ? data.ticketsAvailability[0].tickets[0] : { price: 0, remain: 0 });
+  // ref: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys
+
+  const [selectedDate, setSelectedDate] = useState(Object.keys(data.ticketsAvailability)[0]);
+  const ticketOptions = data.ticketsAvailability[selectedDate];
+  const [selectedTicketOption, setSelectedTicketOption] = useState(ticketOptions[0]);
   const [selectedPrice, setSelectedPrice] = useState(selectedTicketOption.price);
   const [quantity, setQuantity] = useState(1);
   const totalPrice = selectedPrice * quantity;
   const [fullName, setFullName] = useState('');
   const [mobile, setMobile] = useState('');
-  const [address, setAddress] = useState('');
+  const [email, setEmail] = useState('');
   const [errors, setErrors] = useState({});
 
   const handleDateChange = (newDate) => {
-    const newTicketOptions = data.ticketsAvailability.find(day => day.date === newDate).tickets;
+    const newTicketOptions = data.ticketsAvailability[newDate];
     setSelectedDate(newDate);
     setSelectedTicketOption(newTicketOptions[0]);
     setSelectedPrice(newTicketOptions[0].price);
-    setQuantity(1);
+    setQuantity(1); // resetting the quantity when date changes
   };
 
   const handlePriceChange = (e) => {
     const newPrice = parseFloat(e.target.value);
-    const newTicketOption = data.ticketsAvailability.find(day => day.date === selectedDate).tickets.find(option => option.price === newPrice);
+    const newTicketOption = ticketOptions.find(option => option.price === newPrice);
     setSelectedTicketOption(newTicketOption);
     setSelectedPrice(newPrice);
     setQuantity(1);
@@ -44,8 +39,8 @@ const Booking = () => {
   const handleQuantityChange = (e) => {
     setQuantity(parseInt(e.target.value, 10));
   };
-
   const maxQuantity = selectedTicketOption.remain;
+  // ref: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from
   const quantityOptions = Array.from({ length: maxQuantity }, (_, i) => i + 1);
 
   const validateForm = () => {
@@ -62,8 +57,8 @@ const Booking = () => {
       formIsValid = false;
     }
 
-    if (!address.trim()) {
-      errors.address = 'Address is required';
+    if (!email.trim()) {
+      errors.email = 'Email address is required';
       formIsValid = false;
     }
 
@@ -71,43 +66,22 @@ const Booking = () => {
     return formIsValid;
   };
 
-  const handleBooking = async (e) => {
-    // take the parameters required to book the tickets from state 
-    // and navigate to the booking confirmation page
+  const handleBooking = (e) => {
     e.preventDefault();
-    if (!validateForm()) {
-      return;
+    const formIsValid = validateForm();
+    console.log(formIsValid, errors);
+    if (!formIsValid) {
+      return; // no further actions if the form is invalid
     }
-
-    const bookingData = {
-      showId: data._id,
-      date: selectedDate,
-      price: selectedPrice,
-      ticketsBooked: quantity,
-      bookingDetails: {
-        name: fullName,
-        address: address,
-        phoneNumber: mobile,
-        date: selectedDate,
-        price: selectedPrice,
-        showName: data.title,
-        ticketsBooked: quantity
+    console.log(`Booked ${quantity} ticket(s) for ${selectedPrice} each on ${selectedDate}`);
+    console.log(`Total Price: ${totalPrice}`, `Full Name: ${fullName}`, `Mobile: ${mobile}`, `Email: ${email}`);
+    // uncomment to redirect to confirmation page once booking is confirmed
+    navigate('/booking-confirmation', {
+      state: {
+        type: 'success',
       }
-    };
+    });
 
-    try {
-      const response = await axios.post('http://localhost:8000/api/bookshow', bookingData);
-      console.log('Booking successful', response.data);
-      navigate('/booking-confirmation', {
-        state: {
-          type: response.data.type,
-          booking: response.data.booking
-        }
-      });
-    } catch (error) {
-      alert('Error booking the show. Please try again later.');
-      console.error('Error booking the show:', error);
-    }
   };
 
   return (
@@ -115,20 +89,20 @@ const Booking = () => {
       <div className="booking-container">
         <h1 className="booking-title">Book Tickets for <br />{data.title}</h1>
         <div className="booking-details">
-          <p className="booking-info">{data.genre.join(', ')} | Rated PG-13</p>
+          <p className="booking-info">{data.genre} | {data.duration} | Rated {data.rating}</p>
           <p className="booking-description">{data.description}</p>
           <div className="date-selection">
             <label htmlFor="date">Select Date:</label>
             <select id="date" value={selectedDate} onChange={(e) => handleDateChange(e.target.value)}>
-              {data.ticketsAvailability.map((day) => (
-                <option key={day.date} value={day.date}>{day.date}</option>
+              {Object.keys(data.ticketsAvailability).map((date) => (
+                <option key={date} value={date}>{date}</option>
               ))}
             </select>
           </div>
           <div className="price-selection">
             <label htmlFor="price">Select Price:</label>
             <select id="price" value={selectedPrice} onChange={(e) => handlePriceChange(e)}>
-              {data.ticketsAvailability.find(day => day.date === selectedDate)?.tickets.map((option, index) => (
+              {data.ticketsAvailability[selectedDate].map((option, index) => (
                 <option key={index + 1} value={option.price}>€{option.price}</option>
               ))}
             </select>
@@ -164,17 +138,17 @@ const Booking = () => {
               required
             />
             {errors.mobile && <div className="error-message">{errors.mobile}</div>}
-            <label htmlFor="mobile">Address:</label>
+            <label htmlFor="mobile">Email Address:</label>
             <input
-              type="address"
-              name="address"
-              value={address}
-              className={`form-control ${errors.address ? 'is-invalid' : ''}`}
-              onChange={(e) => setAddress(e.target.value)}
-              placeholder="Eg: Maynooth, Co. Kildare, Ireland"
+              type="email"
+              name="email"
+              value={email}
+              className={`form-control ${errors.email ? 'is-invalid' : ''}`}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Eg: anna@yahoo.com"
               required
             />
-            {errors.address && <div className="error-message">{errors.address}</div>}
+            {errors.email && <div className="error-message">{errors.email}</div>}
           </div>
           <button className="book-btn" onClick={handleBooking}>
             Book {quantity} Ticket(s) for €{totalPrice.toFixed(2)}

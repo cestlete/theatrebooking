@@ -10,11 +10,7 @@ import PropTypes from 'prop-types';
 
 const ShowCard = ({ shows }) => {
   if (shows.length === 0) {
-    return (
-      <div className="no-shows">
-        No shows found.
-      </div>
-    );
+    return <div className="no-shows">No shows found.</div>;
   }
   return shows.map(show => (
     <Link key={show.showId} to={`/movie/${show.showId}`} className="movie-card-link" state={
@@ -43,7 +39,7 @@ const ErrorComponent = ({ message }) => (
     <div className="error">{message}</div>
   </div>
 );
-// Prop types for the components helps with type checking
+
 ShowCard.propTypes = {
   shows: PropTypes.array.isRequired,
 };
@@ -52,20 +48,19 @@ ErrorComponent.propTypes = {
   message: PropTypes.string.isRequired,
 };
 
-const HomePage = () => {
+export default function HomePage() {
   const [shows, setShows] = useState([]);
   const [originalShows, setOriginalShows] = useState([]);
   const [genres, setGenres] = useState([]);
   const [showDates, setShowDates] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const defaultFilters = {
+  const [filters, setFilters] = useState({
     genre: '',
     date: '',
     availability: '',
     sort: '',
-  };
-  const [filters, setFilters] = useState(defaultFilters);
+  });
 
   useEffect(() => {
     // set loading to true before making API calls
@@ -95,15 +90,6 @@ const HomePage = () => {
     setFilters(prevFilters => ({ ...prevFilters, ...newFilters }));
   };
 
-  const clearFilters = () => {
-    setFilters(defaultFilters);
-    setShows(originalShows);
-  };
-
-  const isFilterActive = () => {
-    return filters.genre !== '' || filters.date !== '' || filters.availability !== '' || filters.sort !== '';
-  };
-
   useEffect(() => {
     if (filters.genre || filters.date || filters.availability || filters.sort) {
       setLoading(true);
@@ -129,19 +115,10 @@ const HomePage = () => {
 
   return (
     <>
-      <FilterBar
-        genres={genres}
-        showDates={showDates}
-        onFilterChange={handleFilterChange}
-        onClear={() => clearFilters()}
-        isFilterActive={isFilterActive()}
-        defaultFilters={defaultFilters}
-      />
+      <FilterBar genres={genres} showDates={showDates} onFilterChange={handleFilterChange} />
       <div className="movies-container">
         <ShowCard shows={shows} />
       </div>
     </>
   )
 }
-
-export default HomePage;
