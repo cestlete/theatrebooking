@@ -35,7 +35,7 @@ app.listen(PORT, () => {
 
 // default route
 app.get('/', (req, res) => {
-  res.send('Welcome to the Movie Booking API. For the list of available APIs, go to /api-docs');
+  res.send('Welcome to the SHow Booking API. For the list of available APIs, go to /api-docs');
 });
 
 // API routes
