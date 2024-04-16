@@ -24,6 +24,13 @@
  *                 type: array
  *                 items:
  *                   $ref: '#/components/schemas/TicketsAvailability'
+ *     TicketsAvailability:
+ *       type: object
+ *       properties:
+ *         price:
+ *           type: number
+ *         remain:
+ *           type: number
  */
 
 /**

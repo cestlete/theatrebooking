@@ -365,6 +365,17 @@
             }
           }
         }
+      },
+      "TicketsAvailability": {
+        "type": "object",
+        "properties": {
+          "price": {
+            "type": "number"
+          },
+          "remain": {
+            "type": "number"
+          }
+        }
       }
     }
   },
