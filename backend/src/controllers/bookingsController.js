@@ -7,33 +7,19 @@ const Show = require('../models/show');
 
 /**
  * @swagger
- * /api/bookings/{id}:
+ * /api/bookings:
  *   get:
- *     summary: Retrieve booking details by ID
- *     description: Retrieve booking details by its ID
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: string
+ *     summary: Retrieve all booking IDs
+ *     description: Retrieve all booking IDs
  *     responses:
  *       200:
- *         description: Booking details
+ *         description: List of booking IDs
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Booking'
- *       404:
- *         description: Booking not found
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 error:
- *                   type: string
- *                   example: Booking not found
+ *               type: array
+ *               items:
+ *                 type: string
  *       500:
  *         description: Internal Server Error
  *         content:
@@ -46,22 +32,20 @@ const Show = require('../models/show');
  */
 
 /**
- * Retrieves booking details by ID.
+ * Retrieves all booking IDs.
  * 
  * @param {Object} req - Express request object
  * @param {Object} res - Express response object 
- * @returns {Object} - JSON response with booking details or error message 
+ * @returns {Object} - JSON response with booking IDs or error message 
  */
-exports.getBookingDetails = async (req, res) => {
-  const { id } = req.params;
+
+exports.getAllBookings = async (req, res) => {
   try {
-    const booking = await Booking.findById(id);
-    if (!booking) {
-      return res.status(404).json({ error: 'Booking not found' });
-    }
-    res.json(booking);
+    // Retrieve all bookings from the database
+    const bookings = await Booking.find();
+    res.json(bookings); // Return all bookings
   } catch (error) {
-    console.error('Error fetching booking:', error);
+    console.error('Error fetching bookings:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
