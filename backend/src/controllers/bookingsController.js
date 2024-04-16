@@ -129,6 +129,7 @@ exports.getAllBookings = async (req, res) => {
  *                   example: Internal Server Error
  */
 
+
 /**
  * Books a show by updating ticket availability and creating a booking record.
  * Only saves the booking record if updating the remaining tickets is successful.
@@ -137,10 +138,22 @@ exports.getAllBookings = async (req, res) => {
  * @param {Object} res - Express response object
  * @returns {Object} - JSON response indicating success or failure of booking creation
  */
+
+// Define a variable to track if booking is in progress
+let operating = false;
+
 exports.bookShow = async (req, res) => {
   // Use required fields from body
   const { showId, date, price, ticketsBooked, bookingDetails } = req.body; 
   try {
+    // Check if there is an ongoing booking process
+    if (operating) {
+      return res.status(400).json({ type: 'failure', error: 'Please try again later' });
+    }
+
+    // Set booking in progress, start booking process
+    operating = true;
+
     // Retrieve show using 'showId'
     const show = await Show.findById(showId); 
     if (!show) return res.status(404).json({ error: 'Show not found' });
@@ -167,7 +180,11 @@ exports.bookShow = async (req, res) => {
     await show.save(); 
     // Create new booking record
     const booking = await Booking.create(bookingDetails); 
+    // Return success message and booking record
     res.status(201).json({ type: 'success', message: 'Booking created successfully', booking });
+
+    // Set booking process as complete after all the business logic is done
+    operating = false;
   } catch (error) {
     console.error('Error making booking:', error);
     res.status(500).json({ type: 'failure', error: 'Internal Server Error' });
