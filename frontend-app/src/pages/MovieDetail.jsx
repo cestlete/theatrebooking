@@ -35,6 +35,8 @@ const MovieDetail = () => {
 		});
 	};
 
+	const buttonClass = data.hasAvailability ? 'btn' : 'btn disabled';
+
 	return (
 		<div className='movie-detail'>
 			<img className='movie-image' src={data.posterURL || 'https://image.tmdb.org/t/p/w500/riYInlsq2kf1AWoGm80JQW5dLKp.jpg'} alt={data.showName} />
@@ -48,7 +50,10 @@ const MovieDetail = () => {
 				<h2>About the movie</h2>
 				<p className='description'>{show.description}</p>
 				<div className='btn-container'>
-					<button className='btn' onClick={() => handleSubmit()}>Book Tickets</button>
+					<button className={buttonClass} onClick={() => handleSubmit()} disabled={!data.hasAvailability}>
+						{data.hasAvailability ?
+							"Book Tickets" : "Tickets Sold Out"}
+					</button>
 				</div>
 			</div>
 		</div>
