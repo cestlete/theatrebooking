@@ -4,7 +4,7 @@
 # Link to the prod application
 [Theatre Booking Frontend](https://theatrebooking-2.onrender.com)
 
-[Teatre Booking Backend](https://theatrebooking.onrender.com)
+[Theatre Booking Backend](https://theatrebooking.onrender.com)
 
 [Swagger for Backend](https://theatrebooking.onrender.com/api-docs/)
 
