@@ -19,42 +19,19 @@
     }
   ],
   "paths": {
-    "/api/bookings/{id}": {
+    "/api/bookings": {
       "get": {
-        "summary": "Retrieve booking details by ID",
-        "description": "Retrieve booking details by its ID",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
+        "summary": "Retrieve all booking IDs",
+        "description": "Retrieve all booking IDs",
         "responses": {
           "200": {
-            "description": "Booking details",
+            "description": "List of booking IDs",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Booking"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Booking not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "type": "string",
-                      "example": "Booking not found"
-                    }
+                  "type": "array",
+                  "items": {
+                    "type": "string"
                   }
                 }
               }
@@ -76,9 +53,7 @@
             }
           }
         }
-      }
-    },
-    "/api/bookings": {
+      },
       "post": {
         "summary": "Book a show",
         "description": "Book a show by providing show ID, date, price, number of tickets booked, and booking details",
