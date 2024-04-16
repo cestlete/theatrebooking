@@ -132,9 +132,10 @@ const Booking = () => {
       <div className="price-selection">
         <label htmlFor="price">Select Price:</label>
         <select id="price" value={selectedPrice} onChange={(e) => handlePriceChange(e)}>
-          {data.ticketsAvailability.find(day => day.date === selectedDate)?.tickets.map((option, index) => (
-            <option key={index + 1} value={option.price}>€{option.price}</option>
-          ))}
+          {quantityOptions.length === 0 ? <option value={0}>Sold Out</option> :
+            data.ticketsAvailability.find(day => day.date === selectedDate)?.tickets.map((option, index) => (
+              <option key={index + 1} value={option.price}>€{option.price}</option>
+            ))}
         </select>
       </div>
     );
@@ -145,9 +146,10 @@ const Booking = () => {
       <div className="quantity-selection">
         <label htmlFor="quantity">Quantity:</label>
         <select id="quantity" value={quantity} onChange={handleQuantityChange}>
-          {quantityOptions.map(qty => (
-            <option key={qty} value={qty}>{qty}</option>
-          ))}
+          {quantityOptions.length === 0 ? <option value={0}>Sold Out</option> :
+            quantityOptions.map(qty => (
+              <option key={qty} value={qty}>{qty}</option>
+            ))}
         </select>
       </div>
     );
